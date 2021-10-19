@@ -702,19 +702,18 @@ public class NhanVienJInternalFrame extends javax.swing.JInternalFrame {
         }
 
         // Check mật khẩu
-        if (this.txtMatKhau.getPassword().equals("")) {
+        if (this.txtMatKhau.getPassword().length == 0) {
             MsgBox.alert(this, "Vui lòng nhập mật khẩu!");
             this.txtMatKhau.requestFocus();
             return false;
+        } else if (this.txtMatKhau.getPassword().length < 3 || this.txtMatKhau.getPassword().length > 18) {
+            MsgBox.alert(this, "Mật khẩu phải dài từ 3 đến 18 kí tự");
+            this.txtMatKhau.requestFocus();
+            return false;
         }
-//        else if (this.txtMatKhau.getText().length() < 6 && this.txtMatKhau.getText().length() > 18) {
-//            MsgBox.alert(this, "Mật khẩu phải từ 6 tới 18 ký tự");
-//            this.txtMatKhau.requestFocus();
-//            return false;
-//        }
 
         // Check xác nhận mật khẩu
-        if (this.txtXacNhanMK.getPassword().equals("")) {
+        if (this.txtXacNhanMK.getPassword().length == 0) {
             MsgBox.alert(this, "Vui lòng xác nhận mật khẩu!");
             this.txtXacNhanMK.requestFocus();
             return false;
