@@ -360,7 +360,10 @@ public class NhanVienJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-        this.insert();
+        if (checkT() == true && check() == true) {
+            this.insert();
+        }
+
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -675,6 +678,67 @@ public class NhanVienJInternalFrame extends javax.swing.JInternalFrame {
             this.fillNhanVienHienTai();
             MsgBox.alert(this, "Cập nhật trạng thái nhân viên thành công");
         }
+    }
+
+    private boolean checkT() {
+        if (this.dao.selectByID(this.txtMaNV.getText()) != null) {
+            MsgBox.alert(this, "Mã nhân viên đã tồn tại");
+            this.txtMaNV.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean check() {
+        // Check mã nv
+        if (this.txtMaNV.getText().isEmpty()) {
+            MsgBox.alert(this, "Vui lòng nhập mã nhân viên!");
+            this.txtMaNV.requestFocus();
+            return false;
+        } else if (this.txtMaNV.getText().length() < 3) {
+            MsgBox.alert(this, "Mã nhân viên phải nhiều hơn 3 ký tự");
+            this.txtMaNV.requestFocus();
+            return false;
+        }
+
+        // Check mật khẩu
+        if (this.txtMatKhau.getPassword().equals("")) {
+            MsgBox.alert(this, "Vui lòng nhập mật khẩu!");
+            this.txtMatKhau.requestFocus();
+            return false;
+        }
+//        else if (this.txtMatKhau.getText().length() < 6 && this.txtMatKhau.getText().length() > 18) {
+//            MsgBox.alert(this, "Mật khẩu phải từ 6 tới 18 ký tự");
+//            this.txtMatKhau.requestFocus();
+//            return false;
+//        }
+
+        // Check xác nhận mật khẩu
+        if (this.txtXacNhanMK.getPassword().equals("")) {
+            MsgBox.alert(this, "Vui lòng xác nhận mật khẩu!");
+            this.txtXacNhanMK.requestFocus();
+            return false;
+        }
+
+        // Check họ tên
+        if (this.txtHoTen.getText().isEmpty()) {
+            MsgBox.alert(this, "Vui lòng nhập họ và tên!");
+            this.txtHoTen.requestFocus();
+            return false;
+        }
+
+        // Check email
+        String reEmail = "\\w+@\\w+(\\.\\w+){1,2}";
+        if (this.txtEmail.getText().isEmpty()) {
+            MsgBox.alert(this, "Vui lòng nhập Email!");
+            this.txtEmail.requestFocus();
+            return false;
+        } else if (!this.txtEmail.getText().matches(reEmail)) {
+            MsgBox.alert(this, "Email không đúng định dạng");
+            this.txtEmail.requestFocus();
+            return false;
+        }
+        return true;
     }
 
 }
