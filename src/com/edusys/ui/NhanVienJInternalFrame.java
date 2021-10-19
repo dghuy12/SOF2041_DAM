@@ -360,14 +360,17 @@ public class NhanVienJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-        if (checkT() == true && check() == true) {
+        if (this.checkT() == true && this.check() == true) {
             this.insert();
         }
 
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        this.update();
+        if (this.check() == true) {
+            this.update();
+        }
+
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -559,6 +562,7 @@ public class NhanVienJInternalFrame extends javax.swing.JInternalFrame {
             String matKhau2 = HashingPass.doHashing(new String(this.txtXacNhanMK.getPassword()));
             if (!matKhau2.equals(nv.getMatKhau())) {
                 MsgBox.alert(this, "Xác nhận mật khẩu không đúng");
+                this.txtXacNhanMK.requestFocus();
             } else {
                 try {
                     this.dao.insert(nv);
@@ -581,6 +585,7 @@ public class NhanVienJInternalFrame extends javax.swing.JInternalFrame {
             String matKhau2 = HashingPass.doHashing(new String(this.txtXacNhanMK.getPassword()));
             if (!matKhau2.equals(nv.getMatKhau())) {
                 MsgBox.alert(this, "Xác nhận mật khẩu không đúng");
+                this.txtXacNhanMK.requestFocus();
             } else {
                 try {
                     this.dao.update(nv);

@@ -360,11 +360,16 @@ public class ChuyenDeJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblChuyenDeMouseClicked
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-        this.insert();
+        if (this.checkT() == true && this.check() == true) {
+            this.insert();
+        }
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        this.update();
+        if (this.check()) {
+            this.update();
+        }
+
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -627,4 +632,78 @@ public class ChuyenDeJInternalFrame extends javax.swing.JInternalFrame {
         this.updateStatus();
     }
 
+    private boolean checkT() {
+        if (this.dao.selectByID(this.txtMaCD.getText()) != null) {
+            MsgBox.alert(this, "Mã chuyên đề tồn tại");
+            this.txtMaCD.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean check() {
+        //Check mã chuyên đề
+        if (this.txtMaCD.getText().isEmpty()) {
+            MsgBox.alert(this, "Vui lòng nhập mã chuyên đề!");
+            this.txtMaCD.requestFocus();
+            return false;
+        } else if (this.txtMaCD.getText().length() != 5) {
+            MsgBox.alert(this, "Mã chuyên đề phải 5 ký tự!");
+            this.txtMaCD.requestFocus();
+            return false;
+        }
+
+        //Check tên chuyên đề
+        if (this.txtTenCD.getText().isEmpty()) {
+            MsgBox.alert(this, "Vui lòng nhập tên chuyên đề!");
+            this.txtTenCD.requestFocus();
+            return false;
+        } else if (this.txtTenCD.getText().length() < 3) {
+            MsgBox.alert(this, "Tên chuyên đề phải trên 3 ký tự!");
+            this.txtTenCD.requestFocus();
+            return false;
+        }
+
+        //Check thời lượng
+        if (this.txtThoiLuong.getText().isEmpty()) {
+            MsgBox.alert(this, "Vui lòng nhập thời lượng!");
+            this.txtThoiLuong.requestFocus();
+            return false;
+        }
+        int thoiluong;
+        try {
+            thoiluong = Integer.parseInt(this.txtThoiLuong.getText());
+            if (thoiluong < 0) {
+                MsgBox.alert(this, "Thời lượng phải lớn hơn 0!");
+                this.txtThoiLuong.requestFocus();
+                return false;
+            }
+        } catch (Exception e) {
+            MsgBox.alert(this, "Thời lượng phải là số!");
+            this.txtThoiLuong.requestFocus();
+            return false;
+        }
+
+        //Check học phí
+        if (this.txtHocPhi.getText().isEmpty()) {
+            MsgBox.alert(this, "Vui lòng nhập học phí!");
+            this.txtHocPhi.requestFocus();
+            return false;
+        }
+        float hocPhi;
+        try {
+            hocPhi = Float.parseFloat(this.txtHocPhi.getText());
+            if (hocPhi < 0) {
+                MsgBox.alert(this, "Học phí phải lớn hơn 0!");
+                this.txtHocPhi.requestFocus();
+                return false;
+            }
+        } catch (Exception e) {
+            MsgBox.alert(this, "Học phí phải là số!");
+            this.txtHocPhi.requestFocus();
+            return false;
+        }
+
+        return true;
+    }
 }
