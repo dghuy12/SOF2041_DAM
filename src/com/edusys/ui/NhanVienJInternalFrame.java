@@ -354,6 +354,7 @@ public class NhanVienJInternalFrame extends javax.swing.JInternalFrame {
             this.edit();
             this.role();
         }
+       
         if (evt.getButton() == MouseEvent.BUTTON3) {
             this.popupMenu.show(this, evt.getX(), evt.getY());
         }
@@ -452,6 +453,10 @@ public class NhanVienJInternalFrame extends javax.swing.JInternalFrame {
         this.fillNhanVienHienTai();
         this.index = -1;
         this.updateStatus();
+
+        if (!Auth.isManager()) {
+            this.puUpdate.setEnabled(false);
+        }
     }
 
     private void fillNhanVienHienTai() {
@@ -670,19 +675,24 @@ public class NhanVienJInternalFrame extends javax.swing.JInternalFrame {
 
     private void trangThai() {
         this.index = this.tblNhanVien.getSelectedRow();
-        if (this.tblNhanVien.getValueAt(this.index, 5).equals("Đang hoạt động")) {
-            NhanVien nv = new NhanVien();
-            nv.setMaNV((String) this.tblNhanVien.getValueAt(this.index, 0));
-            this.dao.updateKHD(nv);
-            this.fillNhanVienCu();
-            MsgBox.alert(this, "Cập nhật trạng thái nhân viên thành công");
-        } else if (this.tblNhanVien.getValueAt(this.index, 5).equals("Không hoạt động")) {
-            NhanVien nv = new NhanVien();
-            nv.setMaNV((String) this.tblNhanVien.getValueAt(this.index, 0));
-            this.dao.updateHD(nv);
-            this.fillNhanVienHienTai();
-            MsgBox.alert(this, "Cập nhật trạng thái nhân viên thành công");
+        if (this.index < 0) {
+            MsgBox.alert(this, "Bạn chưa chọn dòng nào trên table");
+        } else {
+            if (this.tblNhanVien.getValueAt(this.index, 5).equals("Đang hoạt động")) {
+                NhanVien nv = new NhanVien();
+                nv.setMaNV((String) this.tblNhanVien.getValueAt(this.index, 0));
+                this.dao.updateKHD(nv);
+                this.fillNhanVienCu();
+                MsgBox.alert(this, "Cập nhật trạng thái nhân viên thành công");
+            } else if (this.tblNhanVien.getValueAt(this.index, 5).equals("Không hoạt động")) {
+                NhanVien nv = new NhanVien();
+                nv.setMaNV((String) this.tblNhanVien.getValueAt(this.index, 0));
+                this.dao.updateHD(nv);
+                this.fillNhanVienHienTai();
+                MsgBox.alert(this, "Cập nhật trạng thái nhân viên thành công");
+            }
         }
+
     }
 
     private boolean checkT() {
@@ -711,7 +721,7 @@ public class NhanVienJInternalFrame extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Vui lòng nhập mật khẩu!");
             this.txtMatKhau.requestFocus();
             return false;
-        } else if (this.txtMatKhau.getPassword().length < 3 ) {
+        } else if (this.txtMatKhau.getPassword().length < 3) {
             MsgBox.alert(this, "Mật khẩu phải dài hơn 3 ký tự");
             this.txtMatKhau.requestFocus();
             return false;
