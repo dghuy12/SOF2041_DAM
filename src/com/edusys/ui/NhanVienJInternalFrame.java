@@ -711,8 +711,8 @@ public class NhanVienJInternalFrame extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Vui lòng nhập mật khẩu!");
             this.txtMatKhau.requestFocus();
             return false;
-        } else if (this.txtMatKhau.getPassword().length < 3 || this.txtMatKhau.getPassword().length > 18) {
-            MsgBox.alert(this, "Mật khẩu phải dài từ 3 đến 18 kí tự");
+        } else if (this.txtMatKhau.getPassword().length < 3 ) {
+            MsgBox.alert(this, "Mật khẩu phải dài hơn 3 ký tự");
             this.txtMatKhau.requestFocus();
             return false;
         }

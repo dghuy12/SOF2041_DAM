@@ -40,11 +40,11 @@ public class DangNhapDialog extends javax.swing.JDialog {
 
         jLabel2.setText("Tên đăng nhập");
 
-        txtMaNV.setText("HuyDG");
+        txtMaNV.setText("Admin");
 
         jLabel3.setText("Mật khẩu");
 
-        txtMatKhau.setText("12112002");
+        txtMatKhau.setText("123123");
 
         btnDangNhap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/edusys/icon/Key.png"))); // NOI18N
         btnDangNhap.setText("Đăng nhập");
