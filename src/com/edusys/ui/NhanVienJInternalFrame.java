@@ -354,9 +354,10 @@ public class NhanVienJInternalFrame extends javax.swing.JInternalFrame {
             this.edit();
             this.role();
         }
-       
-        if (evt.getButton() == MouseEvent.BUTTON3) {
-            this.popupMenu.show(this, evt.getX(), evt.getY());
+        if (Auth.isManager()) {
+            if (evt.getButton() == MouseEvent.BUTTON3) {
+                this.popupMenu.show(this, evt.getX(), evt.getY());
+            }
         }
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
@@ -454,9 +455,6 @@ public class NhanVienJInternalFrame extends javax.swing.JInternalFrame {
         this.index = -1;
         this.updateStatus();
 
-        if (!Auth.isManager()) {
-            this.puUpdate.setEnabled(false);
-        }
     }
 
     private void fillNhanVienHienTai() {
