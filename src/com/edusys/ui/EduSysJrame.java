@@ -590,7 +590,7 @@ public class EduSysJrame extends javax.swing.JFrame {
 
         this.startDongHo();
 
-//        new ChaoJDialog(this, true).setVisible(true);
+        new ChaoJDialog(this, true).setVisible(true);
         new DangNhapDialog(this, true).setVisible(true);
     }
 
