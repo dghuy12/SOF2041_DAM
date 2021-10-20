@@ -5,8 +5,10 @@ import com.edusys.entity.NguoiHoc;
 import com.edusys.utils.Auth;
 import com.edusys.utils.MsgBox;
 import com.edusys.utils.XDate;
+import com.toedter.calendar.JDateChooser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -371,11 +373,15 @@ public class NguoiHocJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblNguoiHocMouseClicked
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-        this.insert();
+        if (this.checkT() == true && this.check() == true) {
+            this.insert();
+        }
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        this.update();
+        if (this.check() == true) {
+            this.update();
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -614,6 +620,83 @@ public class NguoiHocJInternalFrame extends javax.swing.JInternalFrame {
         this.clearForm();
         this.index = -1;
         updateStatus();
-
     }
+
+    private boolean checkT() {
+        if (this.dao.selectByID(this.txtMaNH.getText()) != null) {
+            MsgBox.alert(this, "Mã người học tồn tại");
+            this.txtMaNH.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean check() {
+        //Check mã người học
+        if (this.txtMaNH.getText().isEmpty()) {
+            MsgBox.alert(this, "Vui lòng nhập mã người học");
+            this.txtMaNH.requestFocus();
+            return false;
+        }
+
+        //Check họ tên
+        if (this.txtHoTen.getText().isEmpty()) {
+            MsgBox.alert(this, "Vui lòng nhập họ tên");
+            this.txtHoTen.requestFocus();
+            return false;
+        }
+
+        // Check giớit tính
+        if (this.rdoNam.isSelected() == false && this.rdoNu.isSelected() == false) {
+            MsgBox.alert(this, "Vui lòng chọn giới tính");
+            return false;
+        }
+
+        if (this.jdcNgaySinh.getDate() == null) {
+            MsgBox.alert(this, "Vui lòng chọn ngày sinh");
+            return false;
+        }
+        try {
+            Date d = this.jdcNgaySinh.getDate();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(d);
+            if (cal.get(Calendar.YEAR) > 2005) {
+                MsgBox.alert(this, "Tuổi phải trên 16");
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //Check điện thoại
+        if (this.txtDienThoai.getText().isEmpty()) {
+            MsgBox.alert(this, "Vui lòng nhập số điện thoại");
+            this.txtDienThoai.requestFocus();
+            return false;
+        } else if (this.txtDienThoai.getText().length() != 10) {
+            MsgBox.alert(this, "Điện thoại phải có 10 số");
+            this.txtDienThoai.requestFocus();
+            return false;
+        }
+        int soDT;
+        try {
+            soDT = Integer.parseInt(this.txtDienThoai.getText());
+        } catch (Exception e) {
+            MsgBox.alert(this, "Điện thoại phải nhập là số");
+            this.txtDienThoai.requestFocus();
+            return false;
+        }
+
+        //Check email
+        String reEmail = "\\w+@\\w+(\\.\\w+){1,2}";
+        if (this.txtEmail.getText().isEmpty()) {
+            MsgBox.alert(this, "Email trống");
+            return false;
+        } else if (!this.txtEmail.getText().matches(reEmail)) {
+            MsgBox.alert(this, "Email không đúng định dạng");
+            return false;
+        }
+        return true;
+    }
+
 }

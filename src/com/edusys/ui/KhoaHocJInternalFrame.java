@@ -8,7 +8,9 @@ import com.edusys.utils.Auth;
 import com.edusys.utils.MsgBox;
 import com.edusys.utils.XDate;
 import com.edusys.utils.XImage;
+import com.toedter.calendar.JDateChooser;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -359,11 +361,15 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblKhoaHocMouseClicked
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
-        this.insert();
+        if (this.check()) {
+            this.insert();
+        }
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        this.update();
+        if (this.check()) {
+            this.update();
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -487,6 +493,7 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
         int maCD = (int) this.tblKhoaHoc.getValueAt(this.index, 0);
         KhoaHoc kh = this.dao.selectByID(maCD);
         this.setForm(kh);
+        kh.setMaKH(Integer.parseInt(this.cbbChuyenDe.getToolTipText()));
         this.Tabs.setSelectedIndex(0);
         this.updateStatus();
     }
@@ -501,7 +508,6 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
         kh.setMaNV(Auth.user.getMaNV());
         kh.setNgayTao(new Date());
         kh.setGhiChu(this.txtGhiChu.getText());
-        kh.setMaKH(Integer.parseInt(this.cbbChuyenDe.getToolTipText()));
         return kh;
     }
 
@@ -516,6 +522,7 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
         this.jdcNgayKG.setDate(null);
         this.txtNguoiTao.setText(Auth.user.getMaNV());
         this.jdcNgayTao.setDate(null);
+        this.cbbChuyenDe.setToolTipText(null);
         this.index = -1;
         this.updateStatus();
     }
@@ -551,7 +558,7 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Bạn không có quyền xoá chuyên đề!");
         } else if (MsgBox.confirm(this, "Bạn thực sự muốn xoá chuyên đề này")) {
             try {
-                Integer makh = Integer.valueOf(cbbChuyenDe.getToolTipText());
+                Integer makh = Integer.valueOf(this.cbbChuyenDe.getToolTipText());
                 this.dao.delete(makh);
                 this.fillTable();
                 this.Tabs.setSelectedIndex(1);
@@ -586,4 +593,53 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
         this.index = this.tblKhoaHoc.getRowCount() - 1;
         this.edit();
     }
+
+    private boolean check() {
+        if (this.jdcNgayKG.getDate() == null) {
+            MsgBox.alert(this, "Vui lòng nhập ngày khai giảng");
+            this.jdcNgayKG.requestFocus();
+            return false;
+        }
+        try {
+            Date d = this.jdcNgayKG.getDate();
+            Date d5 = new Date();
+            Calendar cal = Calendar.getInstance();
+            Calendar cal2 = Calendar.getInstance();
+            cal.setTime(d);
+            cal2.setTime(d5);
+            if (cal.get(Calendar.DAY_OF_MONTH) - cal2.get(Calendar.DAY_OF_MONTH) < 5) {
+                MsgBox.alert(this, "Ngày khai giảng phải sau ngày tạo"
+                        + " 5 ngày");
+                return false;
+            } else if (cal.get(Calendar.YEAR) != 2021) {
+                MsgBox.alert(this, "Thời điểm khai giảng phải trong năm nay");
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+//    private boolean check5Days(JDateChooser date) {
+//        try {
+//            Date dt = jdcNgayKG.getDate();
+//            Date dt2 = new Date();
+//            Calendar cal = Calendar.getInstance();
+//            Calendar cal2 = Calendar.getInstance();
+//            cal.setTime(dt);
+//            cal2.setTime(dt2);
+//            if (cal.get(Calendar.DAY_OF_MONTH) - cal2.get(Calendar.DAY_OF_MONTH) < 5) {
+//                MsgBox.alert(this, "Ngày khai giảng phải sau ngày tạo"
+//                        + " 5 ngày");
+//                return false;
+//            } else if (cal.get(Calendar.YEAR) != 2021) {
+//                MsgBox.alert(this, "Thời điểm khai giảng phải trong năm nay");
+//                return false;
+//            }
+//        } catch (Exception e) {
+//            return false;
+//        }
+//        return true;
+//    }
 }
