@@ -29,7 +29,7 @@ public class ThongKeJInternalFrame extends javax.swing.JInternalFrame {
 
         this.khdao = new KhoaHocDAO();
         this.tkdao = new ThongKeDAO();
-
+        this.selectTab(index);
         this.init();
 
     }
@@ -324,7 +324,6 @@ public class ThongKeJInternalFrame extends javax.swing.JInternalFrame {
     private void init() {
         this.setResizable(false);
 
-        this.selectTab(0);
         if (!Auth.isManager()) {
             this.tabs.remove(3);
         }
