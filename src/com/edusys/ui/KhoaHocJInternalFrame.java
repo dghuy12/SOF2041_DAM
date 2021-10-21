@@ -106,6 +106,7 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Học phí");
 
+        txtHocPhi.setEditable(false);
         txtHocPhi.setEnabled(false);
 
         jLabel4.setText("Thời lượng");
@@ -292,7 +293,7 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -434,6 +435,7 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
         this.setResizable(false);
         this.fillCbbChuyenDe();
     }
+//
 
     private void fillCbbChuyenDe() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) this.cbbChuyenDe.getModel();
@@ -443,6 +445,7 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
             model.addElement(cd);
         }
     }
+//
 
     private void fillTable() {
         DefaultTableModel model = (DefaultTableModel) this.tblKhoaHoc.getModel();
@@ -490,13 +493,13 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
     }
 
     private void edit() {
-        int maCD = (int) this.tblKhoaHoc.getValueAt(this.index, 0);
-        KhoaHoc kh = this.dao.selectByID(maCD);
+        int maKH = (int) this.tblKhoaHoc.getValueAt(this.index, 0);
+        KhoaHoc kh = this.dao.selectByID(maKH);
         this.setForm(kh);
-        kh.setMaKH(Integer.parseInt(this.cbbChuyenDe.getToolTipText()));
         this.Tabs.setSelectedIndex(0);
         this.updateStatus();
     }
+//
 
     private KhoaHoc getForm() {
         ChuyenDe cd = (ChuyenDe) this.cbbChuyenDe.getSelectedItem();
@@ -516,7 +519,9 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
         this.jdcNgayKG.setDate(kh.getNgayKG());
         this.txtNguoiTao.setText(kh.getMaNV());
         this.jdcNgayTao.setDate(kh.getNgayTao());
+        this.txtGhiChu.setText(kh.getGhiChu());
     }
+//
 
     private void clearForm() {
         this.jdcNgayKG.setDate(null);
@@ -541,7 +546,9 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
     }
 
     private void update() {
+        this.index = this.tblKhoaHoc.getSelectedRow();
         KhoaHoc kh = this.getForm();
+        kh.setMaKH((int) this.tblKhoaHoc.getValueAt(this.index, 0));
         try {
             this.dao.update(kh);
             this.fillTable();
@@ -550,7 +557,6 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
         } catch (Exception e) {
             MsgBox.alert(this, "Cập nhật thất bại");
         }
-
     }
 
     private void delete() {
@@ -558,7 +564,7 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Bạn không có quyền xoá chuyên đề!");
         } else if (MsgBox.confirm(this, "Bạn thực sự muốn xoá chuyên đề này")) {
             try {
-                Integer makh = Integer.valueOf(this.cbbChuyenDe.getToolTipText());
+                Integer makh = Integer.valueOf(cbbChuyenDe.getToolTipText());
                 this.dao.delete(makh);
                 this.fillTable();
                 this.Tabs.setSelectedIndex(1);
@@ -607,8 +613,8 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
             Calendar cal2 = Calendar.getInstance();
             cal.setTime(d);
             cal2.setTime(d5);
-            if (cal.get(Calendar.DAY_OF_MONTH) - cal2.get(Calendar.DAY_OF_MONTH) < 5) {
-                MsgBox.alert(this, "Ngày khai giảng phải sau ngày tạo"
+            if (cal.get(Calendar.DATE) < cal2.get(Calendar.DATE) ) {
+                MsgBox.alert(this, "Ngày khai giảng phải sau ngày tạo" 
                         + " 5 ngày");
                 return false;
             } else if (cal.get(Calendar.YEAR) != 2021) {

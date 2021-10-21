@@ -15,7 +15,7 @@ public class KhoaHocDAO extends EduSysDAO<KhoaHoc, Integer> {
     String SELECT_ALL_SQL = "SELECT * FROM KhoaHoc";
     String SELECT_BY_ID_SQL = "SELECT * FROM KhoaHoc WHERE MaKH = ?";
 
-    @Override
+    @Override   
     public void insert(KhoaHoc entity) {
         JdbcHelper.update(INSERT_SQL, entity.getMaCD(), entity.getHocPhi(), entity.getThoiLuong(), entity.getNgayKG(),
                 entity.getGhiChu(), entity.getMaNV(), entity.getNgayTao());
