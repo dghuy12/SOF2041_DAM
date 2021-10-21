@@ -624,7 +624,7 @@ public class EduSysJrame extends javax.swing.JFrame {
     }
 
     private void openDoiMatKhau() {
-        if (Auth.isLogin()) {
+        if (Auth.isLogin()) {   
             new DoiMatKhauDialog(this, true).setVisible(true);
         } else {
             MsgBox.alert(this, "Vui lòng đăng nhập");
@@ -661,7 +661,7 @@ public class EduSysJrame extends javax.swing.JFrame {
         }
     }
 
-    private void openNguoiHoc() {
+    private void openNguoiHoc() {   
         if (Auth.isLogin()) {
             NguoiHocJInternalFrame nh = new NguoiHocJInternalFrame();
             nh.setLocation((homeDesktop.getWidth() - nh.getWidth()) / 2, (homeDesktop.getHeight() - nh.getHeight()) / 2);
