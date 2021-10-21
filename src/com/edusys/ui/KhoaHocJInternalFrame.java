@@ -613,8 +613,9 @@ public class KhoaHocJInternalFrame extends javax.swing.JInternalFrame {
             Calendar cal2 = Calendar.getInstance();
             cal.setTime(d);
             cal2.setTime(d5);
-            if (cal.get(Calendar.DATE) < cal2.get(Calendar.DATE) ) {
-                MsgBox.alert(this, "Ngày khai giảng phải sau ngày tạo" 
+            if (cal.get(Calendar.DAY_OF_YEAR) - cal2.get(Calendar.DAY_OF_YEAR) < 5) {
+                System.out.println(cal.get(Calendar.DAY_OF_YEAR) - cal2.get(Calendar.DAY_OF_YEAR));
+                MsgBox.alert(this, "Ngày khai giảng phải sau ngày tạo"
                         + " 5 ngày");
                 return false;
             } else if (cal.get(Calendar.YEAR) != 2021) {
