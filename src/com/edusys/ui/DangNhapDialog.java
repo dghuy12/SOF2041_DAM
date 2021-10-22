@@ -30,7 +30,7 @@ public class DangNhapDialog extends javax.swing.JDialog {
         txtMatKhau = new javax.swing.JPasswordField();
         btnDangNhap = new javax.swing.JButton();
         btnKetThuc = new javax.swing.JButton();
-        cbbShow = new javax.swing.JCheckBox();
+        chkShow = new javax.swing.JCheckBox();
         lblQuenMK = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -63,10 +63,10 @@ public class DangNhapDialog extends javax.swing.JDialog {
             }
         });
 
-        cbbShow.setText("Hiện thị mật khẩu");
-        cbbShow.addActionListener(new java.awt.event.ActionListener() {
+        chkShow.setText("Hiện thị mật khẩu");
+        chkShow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbbShowActionPerformed(evt);
+                chkShowActionPerformed(evt);
             }
         });
 
@@ -96,7 +96,7 @@ public class DangNhapDialog extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnDangNhap)
-                            .addComponent(cbbShow))
+                            .addComponent(chkShow))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblQuenMK, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -124,7 +124,7 @@ public class DangNhapDialog extends javax.swing.JDialog {
                         .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbbShow)
+                            .addComponent(chkShow)
                             .addComponent(lblQuenMK))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -156,9 +156,9 @@ public class DangNhapDialog extends javax.swing.JDialog {
         qmk.setVisible(true);
     }//GEN-LAST:event_lblQuenMKMousePressed
 
-    private void cbbShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbShowActionPerformed
+    private void chkShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkShowActionPerformed
         this.showPass();    
-    }//GEN-LAST:event_cbbShowActionPerformed
+    }//GEN-LAST:event_chkShowActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -202,7 +202,7 @@ public class DangNhapDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDangNhap;
     private javax.swing.JButton btnKetThuc;
-    private javax.swing.JCheckBox cbbShow;
+    private javax.swing.JCheckBox chkShow;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblAnh;
@@ -246,7 +246,7 @@ public class DangNhapDialog extends javax.swing.JDialog {
     }
     
     private void showPass(){
-        if (this.cbbShow.isSelected()) {
+        if (this.chkShow.isSelected()) {
             this.txtMatKhau.setEchoChar((char) 0);
         } else {
             this.txtMatKhau.setEchoChar('*');
